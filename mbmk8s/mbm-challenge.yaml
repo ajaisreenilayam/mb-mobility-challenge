@@ -1,0 +1,95 @@
+apiVersion: v1
+kind: Secret
+data:
+  password: YWRpdGhAMTIzCg==
+  username: YWRtaW4=
+metadata:
+  name: test
+  namespace: default
+type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+data:
+  password: mbm@testing
+  username: ajai
+metadata:
+  name: myconfig
+  namespace: default
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nginx
+    entity: mbmChallenge
+  name: nginx
+  namespace: default
+spec:
+  externalTrafficPolicy: Local
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: nginx
+    entity: mbmChallenge
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx
+      entity: mbmChallenge
+  template:
+    metadata:
+      labels:
+        app: nginx
+        entity: mbmChallenge
+    spec:
+      containers:
+        - env:
+            - name: myuser
+              valueFrom:
+                configMapKeyRef:
+                  key: username
+                  name: myconfig
+                  optional: false
+            - name: mypass
+              valueFrom:
+                configMapKeyRef:
+                  key: password
+                  name: myconfig
+                  optional: false
+          envFrom:
+            - secretRef:
+                name: test
+          image: mbmazurecontainerregistry.azurecr.io/azuredocs/mbm-challenge-nginx:v1
+          livenessProbe:
+            exec:
+              command:
+                - cat
+                - /etc/nginx/conf.d/default.conf
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          name: http-webservice
+          ports:
+            - containerPort: 8080
+          readinessProbe:
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            tcpSocket:
+              port: 80
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1000Mi
+            requests:
+              cpu: 250m
+              memory: 500Mi
+
