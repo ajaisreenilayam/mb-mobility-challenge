@@ -69,7 +69,7 @@ spec:
           envFrom:
             - secretRef:
                 name: test
-          image: mbmazurecontainerregistry.azurecr.io/mbm-challenge//mbm-challenge-nginx:v1
+          image: mbmazurecontainerregistry.azurecr.io/mbm-challenge/mbm-challenge-nginx:v1
           livenessProbe:
             exec:
               command:
