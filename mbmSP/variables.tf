@@ -1,0 +1,3 @@
+variable "azureADApp" {
+  default = "ghActionMbmChallenge"
+}
