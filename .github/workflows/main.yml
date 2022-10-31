@@ -37,4 +37,3 @@ jobs:
           manifests: |
             mbm-challenge.yaml
           images: '${{ secrets.registry }}.azurecr.io/${{ secrets.repository }}/mbm-challenge-nginx:${{ github.sha }}'
-          pull: false
