@@ -30,6 +30,7 @@ apply(){
 destroy(){
   cd mbmAKS/ || echo "${RED}The directory does not exist${NC}"
   echo "${RED}Destroying the AKS Cluster${NC}"
+  terraform init
   terraform destroy;
   if [ $? == 1 ]
   then
@@ -40,6 +41,7 @@ destroy(){
   fi
   sleep 15;
   cd ../mbmRemoteStateSetup/ || echo "${RED}The directory does not exist${NC}"
+  terraform init
   terraform destroy;
 }
 
@@ -65,11 +67,13 @@ autodestroy(){
   read -r
   cd mbmAKS/ || echo "${RED}The directory does not exist${NC}"
   echo "${RED}Destroying the AKS Cluster${NC}"
+  terraform init
   terraform destroy --auto-approve;
   echo "${PUR}We are going to destroy the Storage Account in 15 seconds, if you would like to stop here press "CTRL+C" ${NC}"
   sleep 15;
   echo "${RED}Destroying the remote state storage account and container${NC}"
   cd ../mbmRemoteStateSetup/ || echo "${RED}The directory does not exist${NC}"
+  terraform init
   terraform destroy --auto-approve;
 }
 
