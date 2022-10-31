@@ -7,9 +7,9 @@ resource "azuread_service_principal" "auth" {
 }
 
 resource "random_string" "password" {
-  length           = 50
-  special          = true
-  override_special = "/@\" "
+length           = 5
+  special          = false
+  #override_special = "/@\" "
 }
 
 resource "azuread_service_principal_password" "auth" {
@@ -37,3 +37,16 @@ resource "azurerm_role_assignment" "auth" {
 #repository	                azuredocs
 #resource_group	            The name of your resource group
 #cluster_name	            The name of your cluster
+#
+#{
+#"clientId": "f318e148-9af6-4553-8f0c-20faf9d5f136",
+#"clientSecret": "Jq28Q~Bs4wDNbL45tyU1qIuMhX_yMoTsqdKyqdl9",
+#"subscriptionId": "c1e45c6c-1ab0-4ebd-a77f-40b2316b9eaa",
+#"tenantId": "685d03de-e19c-4a6e-b0a7-fbab876c38ae",
+#"activeDirectoryEndpointUrl": "https://login.microsoftonline.com",
+#"resourceManagerEndpointUrl": "https://management.azure.com/",
+#"activeDirectoryGraphResourceId": "https://graph.windows.net/",
+#"sqlManagementEndpointUrl": "https://management.core.windows.net:8443/",
+#"galleryEndpointUrl": "https://gallery.azure.com/",
+#"managementEndpointUrl": "https://management.core.windows.net/"
+#}
